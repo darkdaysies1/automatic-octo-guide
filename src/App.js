@@ -84,14 +84,27 @@ function LandingPage() {
   const [note, setNote] = useState('');
   const [link, setLink] = useState('');
   const [showPreview, setShowPreview] = useState(false);
+  const [oEmbed, setOEmbed] = useState(null);
   const navigate = useNavigate();
 
-  const handleGenerate = (e) => {
+  const handleGenerate = async (e) => {
     e.preventDefault();
     if (track && note) {
       const url = `/play?track=${encodeURIComponent(track)}&note=${encodeURIComponent(note)}`;
       setLink(window.location.origin + url);
       setShowPreview(true);
+      // Fetch oEmbed data
+      try {
+        const res = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(track)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setOEmbed(data);
+        } else {
+          setOEmbed(null);
+        }
+      } catch {
+        setOEmbed(null);
+      }
     }
   };
 
@@ -110,7 +123,7 @@ function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-animated-dark animate-gradient-x overflow-hidden relative">
       <AnimatedEmojis />
-      <AppTitle subtitle={showPreview && link ? "Someone's thinking of you and sent you this track and note! Share a Spotify track with a heartfelt note." : 'Share a Spotify track with a heartfelt note. Your friend sees your message, then listens instantly—plus, they can scan the Spotify code to open the song in their app!'} />
+      <AppTitle subtitle={'Share a Spotify track with a heartfelt note. Your friend sees your message, then listens instantly—plus, they can scan the Spotify code to open the song in their app!'} />
       <div className="w-full max-w-md mx-4 flex flex-col items-center relative z-10">
         <form
           className="w-full bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 mb-8 border-4 border-fuchsia-200/40 hover:shadow-fuchsia-200 transition-shadow duration-300"
@@ -157,6 +170,15 @@ function LandingPage() {
         {showPreview && link && (
           <div className="w-full max-w-md mx-auto bg-white/30 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 p-4 sm:p-6 md:p-8 flex flex-col items-center gap-4 animate-fade-in mb-8 relative overflow-hidden">
             <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{background: 'linear-gradient(120deg, rgba(59,7,100,0.12) 0%, rgba(14,116,144,0.10) 100%)'}}></div>
+            {oEmbed && (
+              <div className="flex flex-row items-center z-10 w-full mb-4 bg-fuchsia-900/80 rounded-xl p-3 shadow-md">
+                <img src={oEmbed.thumbnail_url} alt={oEmbed.title} className="rounded-lg w-20 h-20 object-cover mr-4 flex-shrink-0" />
+                <div className="flex flex-col justify-center">
+                  <div className="font-bold text-white text-lg mb-1">{oEmbed.title}</div>
+                  <div className="text-white text-base">{oEmbed.author_name}</div>
+                </div>
+              </div>
+            )}
             <div className="flex items-center w-full gap-2 z-10">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-fuchsia-700">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3A2.25 2.25 0 008.25 5.25V9m7.5 0v10.5A2.25 2.25 0 0113.5 21h-3a2.25 2.25 0 01-2.25-2.25V9m7.5 0H8.25" />
@@ -191,10 +213,18 @@ function PlayPage() {
   const navigate = useNavigate();
   const { track, note } = getQueryParams(location.search);
   const [show, setShow] = useState(false);
+  const [oEmbed, setOEmbed] = useState(null);
 
   useEffect(() => {
     setShow(true);
-  }, []);
+    // Fetch oEmbed data for the track
+    if (track) {
+      fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(track)}`)
+        .then(res => res.ok ? res.json() : null)
+        .then(data => setOEmbed(data))
+        .catch(() => setOEmbed(null));
+    }
+  }, [track]);
 
   if (!track || !note) {
     return (
@@ -219,18 +249,25 @@ function PlayPage() {
             {decodeURIComponent(note)}
           </div>
         </div>
-        <a
-          href={track}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-8 py-4 rounded-full bg-black text-white text-xl font-extrabold shadow-lg transition-all duration-200 mb-4 drop-shadow-md font-sans hover:bg-gray-900 flex items-center gap-3"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-green-400">
-            <circle cx="12" cy="12" r="12" fill="#1DB954"/>
-            <path d="M17.25 16.08a.75.75 0 0 1-1.03.23c-2.82-1.73-6.38-2.12-10.59-1.15a.75.75 0 1 1-.33-1.46c4.56-1.04 8.47-.6 11.6 1.25a.75.75 0 0 1 .23 1.13zm1.48-2.7a.94.94 0 0 1-1.29.29c-3.23-2-8.16-2.59-11.98-1.4a.94.94 0 1 1-.56-1.8c4.23-1.32 9.6-.68 13.23 1.6.44.27.57.85.29 1.31zm.13-2.82C15.1 8.2 8.9 8.01 5.7 9.01a1.13 1.13 0 1 1-.67-2.16c3.7-1.15 10.5-.93 14.38 1.77a1.13 1.13 0 0 1-1.2 1.94z" fill="#fff"/>
-          </svg>
-          Play in Spotify
-        </a>
+        {oEmbed && (
+          <a
+            href={track}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-row items-center w-full mb-8 bg-black/30 border border-white rounded-2xl p-4 shadow-md transition hover:bg-black/50 cursor-pointer group"
+            style={{ textDecoration: 'none' }}
+          >
+            <img src={oEmbed.thumbnail_url} alt={oEmbed.title} className="rounded-xl w-20 h-20 object-cover mr-4 flex-shrink-0" />
+            <div className="flex flex-col justify-center flex-1">
+              <div className="font-bold text-white text-lg mb-1 truncate" style={{textShadow: '0 1px 4px rgba(0,0,0,0.3)'}}>{oEmbed.title}</div>
+              <div className="text-white text-base mb-2 truncate" style={{textShadow: '0 1px 4px rgba(0,0,0,0.3)'}}>{oEmbed.author_name}</div>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-green-400 ml-2 group-hover:scale-110 transition-transform">
+              <circle cx="12" cy="12" r="12" fill="#1DB954"/>
+              <polygon points="10,8 16,12 10,16" fill="#fff" />
+            </svg>
+          </a>
+        )}
         <button
           onClick={() => navigate('/')}
           className="px-8 py-4 rounded-full bg-black text-white text-lg font-extrabold shadow-lg transition-all duration-200 drop-shadow-md font-sans hover:bg-gray-900"
