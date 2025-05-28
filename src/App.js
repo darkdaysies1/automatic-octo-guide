@@ -126,7 +126,7 @@ function LandingPage() {
       <AppTitle subtitle={'Share a Spotify track with a heartfelt note. Your friend sees your message, then listens instantly!'} />
       <div className="w-full max-w-md mx-4 flex flex-col items-center relative z-10">
         <form
-          className="w-full bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 mb-8 border-4 border-fuchsia-200/40 hover:shadow-fuchsia-200 transition-shadow duration-300"
+          className="w-full bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 mb-8 border-4 border-fuchsia-200/40 hover:shadow-fuchsia-200 transition-shadow duration-300 mx-5 sm:mx-0"
           onSubmit={handleGenerate}
         >
           <div className="mb-4">
