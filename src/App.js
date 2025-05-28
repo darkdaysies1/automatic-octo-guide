@@ -243,7 +243,7 @@ function PlayPage() {
       <AppTitle subtitle={"Someone's thinking of you and sent you this track and note! Share a Spotify track with a heartfelt note."} />
       <div className="w-full max-w-md mx-4 flex flex-col items-center relative z-10 px-5">
         <div
-          className={`w-full p-8 rounded-3xl shadow-2xl bg-white/80 backdrop-blur-xl border-4 border-fuchsia-200/40 mb-8 transition-opacity duration-1000 ${show ? 'opacity-100' : 'opacity-0'} animate-fade-in`}
+          className={`w-full p-4 rounded-3xl shadow-2xl bg-white/80 backdrop-blur-xl border-4 border-fuchsia-200/40 mb-8 transition-opacity duration-1000 ${show ? 'opacity-100' : 'opacity-0'} animate-fade-in mx-5`}
         >
           <div className="text-3xl md:text-4xl font-extrabold text-black text-center mb-2 drop-shadow-sm font-sans">
             {decodeURIComponent(note)}
