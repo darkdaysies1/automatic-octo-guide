@@ -155,7 +155,7 @@ function LandingPage() {
           </div>
         </form>
         {showPreview && link && (
-          <div className="w-full max-w-md mx-auto bg-white/30 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 p-6 flex flex-col items-center gap-4 animate-fade-in mb-8 relative overflow-hidden">
+          <div className="w-full max-w-md mx-auto bg-white/30 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 p-4 sm:p-6 md:p-8 flex flex-col items-center gap-4 animate-fade-in mb-8 relative overflow-hidden">
             <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{background: 'linear-gradient(120deg, rgba(59,7,100,0.12) 0%, rgba(14,116,144,0.10) 100%)'}}></div>
             <div className="flex items-center w-full gap-2 z-10">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-fuchsia-700">
