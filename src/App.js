@@ -30,7 +30,7 @@ function getSpotifyCodeUrl(trackUrl) {
   }
 }
 
-function AppTitle() {
+function AppTitle({ subtitle }) {
   return (
     <div className="flex flex-col items-center w-full">
       <img
@@ -40,7 +40,7 @@ function AppTitle() {
         draggable="false"
       />
       <p className="max-w-xl text-center text-lg md:text-xl font-sans font-medium text-white mb-8" style={{ fontFamily: 'Nunito, sans-serif' }}>
-        Share a Spotify track with a heartfelt note. Your friend sees your message, then listens instantly—plus, they can scan the Spotify code to open the song in their app!
+        {subtitle}
       </p>
     </div>
   );
@@ -110,7 +110,7 @@ function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-animated-dark animate-gradient-x overflow-hidden relative">
       <AnimatedEmojis />
-      <AppTitle />
+      <AppTitle subtitle={showPreview && link ? "Someone's thinking of you and sent you this track and note! Share a Spotify track with a heartfelt note." : 'Share a Spotify track with a heartfelt note. Your friend sees your message, then listens instantly—plus, they can scan the Spotify code to open the song in their app!'} />
       <div className="w-full max-w-md mx-4 flex flex-col items-center relative z-10">
         <form
           className="w-full bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 mb-8 border-4 border-fuchsia-200/40 hover:shadow-fuchsia-200 transition-shadow duration-300"
@@ -130,7 +130,7 @@ function LandingPage() {
           <div className="mb-4">
             <label className="block text-lg font-bold text-fuchsia-700 mb-2 font-sans tracking-wide">Note</label>
             <textarea
-              className="w-full px-4 py-2 rounded-xl border border-black focus:ring-4 focus:ring-gray-800 outline-none text-2xl bg-orange-50/40 text-fuchsia-900 placeholder-fuchsia-300 font-sans"
+              className="w-full px-4 py-2 rounded-xl border border-black focus:ring-4 focus:ring-gray-800 outline-none text-base bg-orange-50/40 text-fuchsia-900 placeholder-fuchsia-300 font-sans"
               placeholder="Type your note..."
               value={note}
               onChange={e => setNote(e.target.value)}
@@ -210,7 +210,7 @@ function PlayPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-animated-dark animate-gradient-x overflow-hidden relative">
       <AnimatedEmojis />
-      <AppTitle />
+      <AppTitle subtitle={"Someone's thinking of you and sent you this track and note! Share a Spotify track with a heartfelt note."} />
       <div className="w-full max-w-md mx-4 flex flex-col items-center relative z-10">
         <div
           className={`w-full p-8 rounded-3xl shadow-2xl bg-white/80 backdrop-blur-xl border-4 border-fuchsia-200/40 mb-8 transition-opacity duration-1000 ${show ? 'opacity-100' : 'opacity-0'} animate-fade-in`}
@@ -235,7 +235,7 @@ function PlayPage() {
           onClick={() => navigate('/')}
           className="px-8 py-4 rounded-full bg-black text-white text-lg font-extrabold shadow-lg transition-all duration-200 drop-shadow-md font-sans hover:bg-gray-900"
         >
-          Send another one.
+          Send a note and track
         </button>
       </div>
     </div>
