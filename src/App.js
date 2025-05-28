@@ -123,7 +123,7 @@ function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-animated-dark animate-gradient-x overflow-hidden relative">
       <AnimatedEmojis />
-      <AppTitle subtitle={'Share a Spotify track with a heartfelt note. Your friend sees your message, then listens instantly—plus, they can scan the Spotify code to open the song in their app!'} />
+      <AppTitle subtitle={'Share a Spotify track with a heartfelt note. Your friend sees your message, then listens instantly!'} />
       <div className="w-full max-w-md mx-4 flex flex-col items-center relative z-10">
         <form
           className="w-full bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 mb-8 border-4 border-fuchsia-200/40 hover:shadow-fuchsia-200 transition-shadow duration-300"
