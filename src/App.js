@@ -241,11 +241,11 @@ function PlayPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-animated-dark animate-gradient-x overflow-hidden relative">
       <AnimatedEmojis />
       <AppTitle subtitle={"Someone's thinking of you and sent you this track and note! Share a Spotify track with a heartfelt note."} />
-      <div className="w-full max-w-md mx-4 flex flex-col items-center relative z-10">
+      <div className="w-full max-w-md mx-4 flex flex-col items-center relative z-10 px-5">
         <div
           className={`w-full p-8 rounded-3xl shadow-2xl bg-white/80 backdrop-blur-xl border-4 border-fuchsia-200/40 mb-8 transition-opacity duration-1000 ${show ? 'opacity-100' : 'opacity-0'} animate-fade-in`}
         >
-          <div className="text-3xl md:text-4xl font-extrabold text-fuchsia-700 text-center mb-2 drop-shadow-sm font-sans">
+          <div className="text-3xl md:text-4xl font-extrabold text-black text-center mb-2 drop-shadow-sm font-sans">
             {decodeURIComponent(note)}
           </div>
         </div>
@@ -259,7 +259,7 @@ function PlayPage() {
           >
             <img src={oEmbed.thumbnail_url} alt={oEmbed.title} className="rounded-xl w-20 h-20 object-cover mr-4 flex-shrink-0" />
             <div className="flex flex-col justify-center flex-1">
-              <div className="font-bold text-white text-lg mb-1 truncate" style={{textShadow: '0 1px 4px rgba(0,0,0,0.3)'}}>{oEmbed.title}</div>
+              <div className="font-bold text-white text-lg mb-1 truncate max-w-[12rem]" style={{textShadow: '0 1px 4px rgba(0,0,0,0.3)'}}>{oEmbed.title}</div>
               <div className="text-white text-base mb-2 truncate" style={{textShadow: '0 1px 4px rgba(0,0,0,0.3)'}}>{oEmbed.author_name}</div>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-green-400 ml-2 group-hover:scale-110 transition-transform">
